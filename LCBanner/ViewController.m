@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "LCBannerView.h"
 
 @interface ViewController ()
 
@@ -16,14 +17,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    [self initBannerView];
 }
 
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)initBannerView
+{
+    LCBannerView *banner = [[LCBannerView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100)];
+    banner.center = self.view.center;
+    banner.banners = @[@"banner0", @"banner1", @"banner2"];
+    banner.positionColor = [UIColor redColor];
+    banner.clickBlock = ^(NSInteger idx) {
+        NSLog(@"%ld", (long)idx);
+    };
+    [self.view addSubview:banner];
 }
-
-
 @end
