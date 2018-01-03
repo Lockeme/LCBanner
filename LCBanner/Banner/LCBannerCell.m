@@ -38,6 +38,8 @@
         _bannerImg.image = [UIImage imageNamed:(NSString *)imageObj];
     } else if ([imageObj isKindOfClass:[UIImage class]]) {
         _bannerImg.image = (UIImage *)imageObj;
+    } else if ([imageObj isKindOfClass:[NSURL class]]) {
+        _bannerImg.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:(NSURL *)imageObj]];
     }
 }
 @end

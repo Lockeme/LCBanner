@@ -13,9 +13,9 @@ typedef void(^ClickBlock)(NSInteger idx);
 
 @interface LCBannerView : UIView<UICollectionViewDelegate,UICollectionViewDataSource>
 
-/** 数据源 images or imageNames */
+/** 数据源 images or imageNames or urls */
 @property (nonatomic, strong) NSArray *banners;
-/** 定位点颜色 default is white */
+/** 位置点颜色 default is white */
 @property (nonatomic, strong) UIColor *positionColor;
 /** 用户点击banner后返回block */
 @property (nonatomic, copy) ClickBlock clickBlock;

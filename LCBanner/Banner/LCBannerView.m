@@ -11,21 +11,21 @@
 #import "LCBannerCell.h"
 
 static NSString *const cellID = @"bannerCellID";
-#define POSITION_VIEW_HEIGHT 16//小圆点View高度
-#define POSITION_WEIGHT 8//小圆点宽高
-#define POSITION_WEIGHT_SELECT 10//选中状态小圆点宽高
-#define POSITION_TAG 9230//小圆点tag值
+#define POSITION_VIEW_HEIGHT     16//小圆点View高度
+#define POSITION_WEIGHT          8//普通小圆点宽高
+#define POSITION_WEIGHT_SELECT   10//选中状态小圆点宽高
+#define POSITION_TAG             9230//小圆点tag值
 
 @interface LCBannerView()
 {
     NSInteger _lastCellIndex;//最后一个cell下标
     NSInteger _currentIndex;//当前显示图片下标
 }
-/** 主要的Collection */
+/** Main Collection */
 @property (nonatomic, strong) UICollectionView *bannerCollection;
-/** 定位点背景图 */
+/** 位置点背景图 */
 @property (nonatomic, strong) UIView *positionView;
-/** timer */
+/** timer 实现自动滚动 */
 @property (nonatomic, strong) NSTimer *scrollTimer;
 @end
 
@@ -78,7 +78,7 @@ static NSString *const cellID = @"bannerCellID";
 -(void)setBanners:(NSArray *)banners
 {
     [banners enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (![obj isKindOfClass:[NSString class]] && ![obj isKindOfClass:[UIImage class]]) {
+        if (![self classJudgment:obj className:@"UIImage"] && ![self classJudgment:obj className:@"NSString"] && ![self classJudgment:obj className:@"NSURL"]) {
             NSLog(@"Error - Banner类型不是支持的UIImage或NSString");
             return;
         }
@@ -93,6 +93,12 @@ static NSString *const cellID = @"bannerCellID";
 {
     _positionColor = positionColor;
     [self refreshPositionColor];
+}
+
+#pragma mark - 类型判断
+- (BOOL)classJudgment:(id)obj className:(NSString *)name
+{
+    return [obj isKindOfClass:NSClassFromString(name)];
 }
 
 #pragma mark - UI
@@ -110,8 +116,8 @@ static NSString *const cellID = @"bannerCellID";
 {
     /*
      * 假设3张图,画起来就是下面这样
-     * |-x-x-x-|
-     * -代表间隔10,x代表圆点,宽度10
+     * |-o-o-o-|
+     * -代表间隔10,o代表圆点,宽度10
      */
     CGFloat pViewWidth = (_banners.count*2+1) * POSITION_WEIGHT;
     _positionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, pViewWidth, POSITION_VIEW_HEIGHT)];
@@ -205,7 +211,7 @@ static NSString *const cellID = @"bannerCellID";
 #pragma mark - collectionView delegate & datasource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
 {
-    return _banners.count + 2;
+    return _banners.count?_banners.count + 2:0;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;

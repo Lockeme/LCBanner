@@ -26,7 +26,10 @@
 {
     LCBannerView *banner = [[LCBannerView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100)];
     banner.center = self.view.center;
-    banner.banners = @[@"banner0", @"banner1", @"banner2"];
+    banner.banners = @[@"banner0",
+                       @"banner1",
+                       [UIImage imageNamed:@"banner2"],
+                       [NSURL URLWithString:@"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png"]];
     banner.positionColor = [UIColor redColor];
     banner.clickBlock = ^(NSInteger idx) {
         NSLog(@"%ld", (long)idx);
