@@ -107,6 +107,9 @@ static NSString *const cellID = @"bannerCellID";
     _lastCellIndex = _banners.count + 1;
     [_bannerCollection setContentSize:CGSizeMake(CGRectGetWidth(self.frame)*(_lastCellIndex+1), CGRectGetHeight(self.frame))];
     [_bannerCollection reloadData];
+    if (_banners.count <= 1) {
+        _bannerCollection.scrollEnabled = NO;
+    }
     [self createPositionPoint];
     [self scrollToFirstImage:NO];
 }
@@ -267,3 +270,4 @@ static NSString *const cellID = @"bannerCellID";
     }
 }
 @end
+
